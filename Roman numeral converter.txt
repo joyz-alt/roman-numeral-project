@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Roman Numeral Converter</title>
+
+</head>
+
+<body>
+    <section class="container" id="container">
+
+        <h1 class="title">Callaghan's Roman Numeral Converter </h1>
+
+        <div class="convertor-div">
+            <label class="label">Enter a number:</label>
+
+            <input class="number" id="number"></input>
+
+            <button class="convert-btn" id="convert-btn">Button</button>
+
+            <div class="output" id="output"></div>
+        </div>
+
+    </section>
+
+    <script>
+
+        const convertBtn = document.getElementById("convert-btn");
+        const numberInput = document.getElementById("number");
+        const output = document.getElementById("output");
+
+        const checkForNumber = () => {
+            const input = numberInput.value.trim();
+
+            if (!input) {
+                output.textContent = "Please enter a valid number";
+                output.style.display = "block";
+                return;
+            }
+
+            const number = parseInt(input);
+
+            if (number < 1) {
+                output.textContent = "Please enter a number greater than or equal to 1";
+                output.style.display = "block";
+                return;
+            }
+
+            if (number > 9999) {
+                output.textContent = "Please enter a number less than or equal to 3999";
+                output.style.display = "block";
+                return;
+            }
+
+            const romanNumeral = toRoman(number);
+            output.textContent = `${romanNumeral}`;
+            output.style.display = "block";
+        };
+
+        const toRoman = (num) => {
+            const romanMap = [
+                { value: 1000, numeral: "M" },
+                { value: 900, numeral: "CM" },
+                { value: 500, numeral: "D" },
+                { value: 400, numeral: "CD" },
+                { value: 100, numeral: "C" },
+                { value: 90, numeral: "XC" },
+                { value: 50, numeral: "L" },
+                { value: 40, numeral: "XL" },
+                { value: 10, numeral: "X" },
+                { value: 9, numeral: "IX" },
+                { value: 5, numeral: "V" },
+                { value: 4, numeral: "IV" },
+                { value: 1, numeral: "I" },
+            ];
+
+            let roman = "";
+
+            for (let i = 0; i < romanMap.length; i++) {
+                while (num >= romanMap[i].value) {
+                    roman += romanMap[i].numeral;
+                    num -= romanMap[i].value;
+                }
+            }
+            return roman;
+        };
+
+
+        numberInput.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                checkForNumber();
+            }
+        });
+
+        convertBtn.addEventListener("click", checkForNumber);
+    </script>
+</body>
+
+</html>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #1a1a40, #2a2a72);
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        text-align: center;
+        max-width: 500px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .title {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+
+    .convertor-div {
+        margin: 20px 0;
+    }
+
+    .label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+    }
+
+    .number {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid #5a01a7;
+        margin-bottom: 15px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .number:focus {
+        outline: none;
+        border-color: #ffcc00;
+    }
+
+    .convert-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        background: #ff5733;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .convert-btn:hover {
+        background: #ff7844;
+    }
+
+    .output {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        padding: 10px;
+        background: white;
+        color: black;
+        border-radius: 5px;
+        display: none;
+    }
+</style>
